@@ -5,7 +5,7 @@ from copy import deepcopy
 import time
 import matplotlib.pyplot as plt
 
-def Montecarlo2048(game, simulations_per_move, steps, count_zeros=False, print_averages=True):
+def montecarlo_2048(game, simulations_per_move, steps, count_zeros=False, print_averages=True, return_scores=False):
     """
     Test each possible move, run montecarlo simulations and return a dictionary of average scores,
     one score for each possible move
@@ -19,6 +19,9 @@ def Montecarlo2048(game, simulations_per_move, steps, count_zeros=False, print_a
 
     # Create a dictionary to store average scores per allowable move
     average_scores = np.zeros(4)
+
+    # Will contain 4 lists of scores, one list for each starting move (LEFT, DOWN, RIGHT, UP)
+    scores_per_move = [[0]] * 4
 
     for move in allowed_moves:
 
@@ -46,7 +49,8 @@ def Montecarlo2048(game, simulations_per_move, steps, count_zeros=False, print_a
             else:
                 score_list.append(game_copy.calculate_score(score_type="simple_sum"))
 
-        average_scores[(move-1)] = np.average(score_list)
+        scores_per_move[move-1] = score_list
+        average_scores[move-1] = np.average(score_list)
 
     if print_averages:
         print("[1] LEFT score: ",  average_scores[0])
@@ -67,4 +71,38 @@ def Montecarlo2048(game, simulations_per_move, steps, count_zeros=False, print_a
         random_scores[np.random.choice([0,1,2,3])] = 1
         return random_scores
 
-    return average_scores
+    if return_scores:
+        return scores_per_move
+    else:
+        return average_scores
+
+
+
+def montecarlo_2048_plot_distribution(game, simulations_per_move, steps_per_simulation):
+    """
+    Test each possible move, run montecarlo simulations and return a dictionary of average scores,
+    one score for each possible move
+    """
+
+    results = []
+
+    # moves in specific order
+    moves = ["left", "down", "right", 'up']
+    for n_simulations in simulations_per_move:
+        for steps in steps_per_simulation:
+            montecarlo_scores = montecarlo_2048(game, n_simulations, steps, return_scores=True)
+            print(montecarlo_scores)
+            results.append({"n_simulations" : n_simulations,
+                           "steps"                : steps,
+                           "scores"               : {}})
+
+            for i, move in enumerate(moves):
+                results[-1]["scores"].setdefault(move, montecarlo_scores[i])
+
+    fig, axs = plt.subplots(len(results), 4)
+    for i, result in enumerate(results):
+        for j, move in enumerate(moves):
+            axs[i, j].hist(result["scores"][move])
+            axs[i, j].set_title(f'move:{move}, n_simulations: {result["n_simulations"]}, steps: {result["steps"]}')
+            axs[i, j].axvline(np.mean(result["scores"][move]), color="red")
+    plt.show()

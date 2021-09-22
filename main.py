@@ -2,7 +2,7 @@ import pygame
 import time
 from game import Game2048
 import numpy as np
-from montecarlo_algorithm import Montecarlo2048
+from montecarlo_algorithm import montecarlo_2048, montecarlo_2048_plot_distribution
 from game_gui import Game2048Gui
 
 def __main__(player="human", time_sleep=0):
@@ -41,18 +41,25 @@ def __main__(player="human", time_sleep=0):
 
                     # Montecarlo's suggested move
                     score = game.calculate_score(score_type="simple_sum")
-                    if score < 3000:
 
-                        montecarlo_averages = Montecarlo2048(game=game,
-                                                             simulations_per_move=4,
-                                                             steps=4,
+                    if (score % 1000) != 0:
+
+                        montecarlo_averages = montecarlo_2048(game=game,
+                                                             simulations_per_move=24,
+                                                             steps=16,
                                                              count_zeros=False)
 
                     else:
-                        montecarlo_averages = Montecarlo2048(game=game,
-                                                             simulations_per_move=4,
-                                                             steps=4,
-                                                             count_zeros=False)
+
+
+                        montecarlo_2048_plot_distribution(game,
+                                                          simulations_per_move= [25, 25, 25],
+                                                          steps_per_simulation = [10])
+
+                        montecarlo_averages = montecarlo_2048(game=game,
+                                                              simulations_per_move=25,
+                                                              steps=16,
+                                                              count_zeros=False)
 
                     # Take montecarlo's suggestion
                     montecarlo_move = np.argmax(montecarlo_averages) + 1
