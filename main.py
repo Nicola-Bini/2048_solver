@@ -45,16 +45,16 @@ def __main__(player="human", time_sleep=0):
                     if (score % 1000) != 0:
 
                         montecarlo_averages = montecarlo_2048(game=game,
-                                                             simulations_per_move=24,
-                                                             steps=16,
+                                                             simulations_per_move=100,
+                                                             steps=8,
                                                              count_zeros=False)
 
                     else:
 
 
                         montecarlo_2048_plot_distribution(game,
-                                                          simulations_per_move= [25, 25, 25],
-                                                          steps_per_simulation = [10])
+                                                          simulations_per_move= [100,10000],
+                                                          steps_per_simulation = [8])
 
                         montecarlo_averages = montecarlo_2048(game=game,
                                                               simulations_per_move=25,

@@ -102,7 +102,17 @@ def montecarlo_2048_plot_distribution(game, simulations_per_move, steps_per_simu
     fig, axs = plt.subplots(len(results), 4)
     for i, result in enumerate(results):
         for j, move in enumerate(moves):
-            axs[i, j].hist(result["scores"][move])
+
+            if ((max(result["scores"][move]) - min(result["scores"][move]))/2) % 1 == 0:
+                n_bins = int((max(result["scores"][move]) - min(result["scores"][move])))
+                print(n_bins)
+            else:
+                n_bins = int((max(result["scores"][move]) - min(result["scores"][move]))) + 1
+                print(n_bins)
+            if n_bins == 0:
+                n_bins = 1
+            axs[i, j].hist(result["scores"][move], bins = n_bins)
             axs[i, j].set_title(f'move:{move}, n_simulations: {result["n_simulations"]}, steps: {result["steps"]}')
             axs[i, j].axvline(np.mean(result["scores"][move]), color="red")
+    plt.title(f"{game.calculate_score()}")
     plt.show()
