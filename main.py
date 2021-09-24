@@ -41,25 +41,44 @@ def __main__(player="human", time_sleep=0):
 
                     # Montecarlo's suggested move
                     score = game.calculate_score(score_type="simple_sum")
+                    if score < 1000:
+                        if (score % 1000) != 0:
 
-                    if (score % 1000) != 0:
+                            montecarlo_averages = montecarlo_2048(game=game,
+                                                                 simulations_per_move=50,
+                                                                 steps=5,
+                                                                 count_zeros=False)
 
-                        montecarlo_averages = montecarlo_2048(game=game,
-                                                             simulations_per_move=100,
-                                                             steps=8,
-                                                             count_zeros=False)
+                        else:
 
+
+                            montecarlo_2048_plot_distribution(game,
+                                                              simulations_per_move= [100, 10000],
+                                                              steps_per_simulation = [8])
+
+                            montecarlo_averages = montecarlo_2048(game=game,
+                                                                  simulations_per_move=50,
+                                                                  steps=5,
+                                                                  count_zeros=False)
                     else:
+                        if (score % 1000) != 0:
 
+                            montecarlo_averages = montecarlo_2048(game=game,
+                                                                  simulations_per_move=1024,
+                                                                  steps=16,
+                                                                  count_zeros=False)
 
-                        montecarlo_2048_plot_distribution(game,
-                                                          simulations_per_move= [100,10000],
-                                                          steps_per_simulation = [8])
+                        else:
 
-                        montecarlo_averages = montecarlo_2048(game=game,
-                                                              simulations_per_move=25,
-                                                              steps=16,
-                                                              count_zeros=False)
+                            montecarlo_2048_plot_distribution(game,
+                                                              simulations_per_move=[100, 10000],
+                                                              steps_per_simulation=[8])
+
+                            montecarlo_averages = montecarlo_2048(game=game,
+                                                                  simulations_per_move=1024,
+                                                                  steps=16,
+                                                                  count_zeros=False)
+
 
                     # Take montecarlo's suggestion
                     montecarlo_move = np.argmax(montecarlo_averages) + 1
@@ -92,9 +111,6 @@ def __main__(player="human", time_sleep=0):
                 #         _running = False
 
 
-
-
-
         else:
             game_gui.draw_game(game, game_over=True)
             key = game_gui.wait_for_key()
@@ -104,9 +120,6 @@ def __main__(player="human", time_sleep=0):
 
 
         # Update game
-
-
-
 
 
     return

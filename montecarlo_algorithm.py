@@ -114,5 +114,5 @@ def montecarlo_2048_plot_distribution(game, simulations_per_move, steps_per_simu
             axs[i, j].hist(result["scores"][move], bins = n_bins)
             axs[i, j].set_title(f'move:{move}, n_simulations: {result["n_simulations"]}, steps: {result["steps"]}')
             axs[i, j].axvline(np.mean(result["scores"][move]), color="red")
-    plt.title(f"{game.calculate_score()}")
-    plt.show()
+    fig.show()
+    plt.close(fig)
