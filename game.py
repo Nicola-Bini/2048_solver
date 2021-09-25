@@ -3,6 +3,8 @@ import random
 import pygame
 import time
 from pygame.locals import *
+import os
+import pandas as pd
 
 class Game2048():
 
@@ -12,6 +14,7 @@ class Game2048():
         self.insert_new_number(new_game=True)
         self.insert_new_number(new_game=True)
         self._running = True
+        self.total_moves = 0
 
 
     def insert_new_number(self, new_game=False):
@@ -94,6 +97,7 @@ class Game2048():
         if inplace == True and valid_move == True:
             self.game_grid = initial_game_grid
             self.insert_new_number(new_game=False)
+            self.total_moves = self.total_moves + 1
 
         return valid_move
 
@@ -143,7 +147,20 @@ class Game2048():
         allowed_moves = []
         for i in range(1, 5):
             allowed_move = self.make_move(i, inplace=False)
-            if allowed_move == True:
+            if allowed_move:
                 allowed_moves.append(i)
 
         return allowed_moves
+
+
+    def save_game(self, replay_name, move):
+        if os.path.isfile("./replays/" + replay_name + ".csv"):
+            df_game_states = pd.read_csv("./replays/" + replay_name + ".csv")
+            sr_game_state = pd.Series({"game_state":self.game_grid, "previous_move":move}, name=self.total_moves)
+            df_game_states = df_game_states.append(sr_game_state, ignore_index=False)
+            df_game_states.to_csv("./replays/" + replay_name + ".csv", index=False)
+        else:
+            df_game_states = pd.DataFrame(columns=["game_state", "previous_move"])
+            sr_game_state = pd.Series({"game_state":self.game_grid, "previous_move":move}, name=self.total_moves)
+            df_game_states = df_game_states.append(sr_game_state, ignore_index=False)
+            df_game_states.to_csv("./replays/" + replay_name + ".csv", index=False)

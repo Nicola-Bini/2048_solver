@@ -4,16 +4,88 @@ from game import Game2048
 import numpy as np
 from montecarlo_algorithm import montecarlo_2048, montecarlo_2048_plot_distribution
 from game_gui import Game2048Gui
+import os
+import pandas as pd
 
-def __main__(player="human", time_sleep=0):
+
+def convert_str_matrix_to_numpy(grid):
+    grid = grid.replace("\n", ",")
+    arr_lst = []
+    lst = ""
+
+    for char in grid:
+        lst = lst + char
+        if char == ",":
+            lst = lst.strip(" [],")
+            print(lst)
+            lst = lst.split()
+            lst = list(map(int, lst))
+            arr_lst.append(lst)
+            lst = ""
+
+    lst = lst.strip(" [],")
+    print(lst)
+    lst = lst.split()
+    lst = list(map(int, lst))
+    arr_lst.append(lst)
+
+    return np.array(arr_lst, dtype="object")
+
+
+def __main__(player="human", time_sleep=0, save_replay=False, replay_name=""):
     '''
             Start game with GUI
             player types ["human", "montecarlo", "keras"]
     '''
 
+
     # Initialize game
     game = Game2048()
     game_gui = Game2048Gui(window_size = 1)
+
+    if player == "watch_replay":
+
+        # check if replay exists
+        if os.path.isfile("./replays/" + replay_name + ".csv"):
+            print(f"Starting replay: {replay_name} \n")
+        else:
+            print(f"Error replay {replay_name} does not exist\n")
+            quit()
+
+        df_game_states = pd.read_csv("./replays/" + replay_name + ".csv")
+        print(df_game_states.dtypes)
+        game.game_grid = convert_str_matrix_to_numpy(df_game_states.loc[0, 'game_state'])
+
+
+        for i in range(len(df_game_states)-1):
+            time.sleep(0.1)
+            print(df_game_states.loc[i+1, 'game_state'])
+            game.game_grid = convert_str_matrix_to_numpy(df_game_states.loc[i+1, 'game_state'])
+            print(game.game_grid)
+            game_gui.draw_game(game)
+
+        if len(game.check_allowed_moves()) == 0:
+            game_gui.draw_game(game, game_over=True)
+
+        input("Replay finished, press enter to quit")
+        quit()
+
+
+    # Create replay file
+    if save_replay:
+        name_not_valid = True
+        while name_not_valid:
+            replay_name = input("How do you want to call this replay?")
+
+            # Check if there is a replay with this name
+            if os.path.isfile("./replays/" + replay_name + ".csv"):
+                print(f"the name {replay_name} is taken, choose another name \n")
+            else:
+                name_not_valid = False
+
+        # Save current game
+        print(f"Creating new replay with name '{replay_name}'")
+        game.save_game(replay_name, "n/d")
 
     while game._running:
 
@@ -42,42 +114,19 @@ def __main__(player="human", time_sleep=0):
                     # Montecarlo's suggested move
                     score = game.calculate_score(score_type="simple_sum")
                     if score < 1000:
-                        if (score % 1000) != 0:
 
-                            montecarlo_averages = montecarlo_2048(game=game,
-                                                                 simulations_per_move=50,
-                                                                 steps=5,
-                                                                 count_zeros=False)
-
-                        else:
+                        montecarlo_averages = montecarlo_2048(game=game,
+                                                             simulations_per_move=25,
+                                                             steps=6,
+                                                             count_zeros=False)
 
 
-                            montecarlo_2048_plot_distribution(game,
-                                                              simulations_per_move= [100, 10000],
-                                                              steps_per_simulation = [8])
-
-                            montecarlo_averages = montecarlo_2048(game=game,
-                                                                  simulations_per_move=50,
-                                                                  steps=5,
-                                                                  count_zeros=False)
                     else:
-                        if (score % 1000) != 0:
 
-                            montecarlo_averages = montecarlo_2048(game=game,
-                                                                  simulations_per_move=1024,
-                                                                  steps=16,
-                                                                  count_zeros=False)
-
-                        else:
-
-                            montecarlo_2048_plot_distribution(game,
-                                                              simulations_per_move=[100, 10000],
-                                                              steps_per_simulation=[8])
-
-                            montecarlo_averages = montecarlo_2048(game=game,
-                                                                  simulations_per_move=1024,
-                                                                  steps=16,
-                                                                  count_zeros=False)
+                        montecarlo_averages = montecarlo_2048(game=game,
+                                                              simulations_per_move=1024,
+                                                              steps=16,
+                                                              count_zeros=False)
 
 
                     # Take montecarlo's suggestion
@@ -85,6 +134,9 @@ def __main__(player="human", time_sleep=0):
 
                     # Play the suggested move
                     game.make_move(montecarlo_move)
+
+                    if save_replay:
+                        game.save_game(replay_name, montecarlo_move)
 
                 # Game over
                 # else:
@@ -124,4 +176,4 @@ def __main__(player="human", time_sleep=0):
 
     return
 
-__main__(player="montecarlo")
+__main__(player="montecarlo", save_replay=True, replay_name="test1")
