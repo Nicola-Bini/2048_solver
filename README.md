@@ -30,37 +30,57 @@ The set of actions the player it is defined as A<sub>i</sub> ⊆ M = {up, down, 
 ### State Transitions
 In 2048 the transition between states is **stochastic**, meaning that given a state of the game and certain move, the resulting state may be different depending on where the new number is spawned and whether is a '2' or a '4'.
 Take as example the following game state:
- 
-***Game state image***
- 
-Say that the player chooses the move 'left', the resulting possible states after the move are 28, because there are 14 empty spots where the new number can appear and the new number is taken from the set N = {2, 4}.
+<br>
+<br>
+<br>
+<p align="center">
+ <img src=https://user-images.githubusercontent.com/63654846/134788763-43fb75e8-c1cd-463c-8877-5bbd6211063c.png>
+</p>
 
-***Resulting game state images!***
+<br>
+<br>
  
+ Say that the player chooses the move 'left', the resulting possible game states G<sub>i</sub> after the move are 28, because there are 14 empty spots where the new number can appear and the new number is taken from the set N = {2, 4}.
+
+<br>
+<br>
+<p align="center">
+<img width="70%"src=https://user-images.githubusercontent.com/63654846/134788628-bcb44aa4-18b5-4279-a5bc-afeb4f0d01bb.png>
+</p>
+<br>
+<br>
+
 ### Score
 In the original game, the score starts from 0 and everytime a player adds up 2 numbers the sum of the 2 numbers is added to the score.
-For example, merging together two tiles of '2' would increase the score by +4, merging together two tiles of '16' would increase the score by +32.
+For example, merging together two tiles of '2' would increase the score by +4, merging together two tiles of '16' would increase the score by +32.<br>
 However, in this version of the game the score of a state of the game S<sub>i</sub> is given by summing up the values of all the tabs. (see examples below)
- 
-* Add image of score calculation *
+
+<br>
+<br>
+<p align="center">
+<img width="40%"src=https://user-images.githubusercontent.com/63654846/134788874-b701f76c-8ea7-4fc6-ac97-6ad13b86b31d.png>
+</p>
+<br>
+<br>
+
  
 ## Random walk
-A random walk is a random process made of a sequence of random steps. The simplest expample of a random walk is a value Z that starts at 0 and at each step increases by 1 or decreases by 1 with equal probability, where each step is independent and identically distributed in size (i.i.d.)
- 
-*IMAGE RANDOM WALK*
- 
+A random walk is a random process made of a sequence of random steps. In 2048, the evolution of the score follows a random walk. If there is at least one valid move (i.e. it is not game over), the score of the State S<sub>i+1</sub> is given by the score of the previous State S<sub>i</sub> +2 with a probability of 0.9 and +4 with a probability of 0.1. If it is game over, the score will remain the same.
 
-In 2048, if we randomly pick a move within the space of allowed moves A ⊆ M = {up, down, left, right}, then we would have a random walk where each state is given by 
- 
+<br>
+<br>
 <!-- latex formula: \begin{equation*} S_{i+1} = f(M_i,\ S_i)= \begin{cases} s_i + 2 &\ p = 0.9 &\ if M_i \ne \emptyset \\ s_i + 4 &\ p = 0.1 &\ if M_i \ne \emptyset \\ s_i &\ &\ if M_i= \emptyset \end{cases}\end {equation*}-->
-<img width="1109" alt="Screen Shot 2021-09-25 at 6 05 30 PM" src="https://user-images.githubusercontent.com/63654846/134787043-2d32a12b-23ed-4bb8-8ced-a24de4c8904a.png">
+<p align="center">
+<img width="70%" alt="Screen Shot 2021-09-25 at 6 05 30 PM" src="https://user-images.githubusercontent.com/63654846/134787043-2d32a12b-23ed-4bb8-8ced-a24de4c8904a.png">
+</p>
 
-
+<br>
+<br>
  
  
-When Monte Carlo is used to sample the results of Random walks
+## Monte Carlo
 
-Monte Carlo methods rely on random sampling to approximate a result that cannot be directly calculated. Sampling a large number of scenarios makes possible to estimate boundary conditions that are impossible or difficult to define a priori.
+Monte Carlo methods are a category of algorithms that rely on random sampling to approximate a result that cannot be directly calculated. Sampling a large number of scenarios is possible to estimate boundary conditions that are impossible or difficult to define a priori.
 
 For example, [Nicoguaro](https://commons.wikimedia.org/wiki/User:Nicoguaro) used Monte Carlo to estimate the value of π by drawing points uniformly in a quadrant. Then, by calculating the distance of each point from the origin he determined if such point is within the boundary of the circle or not. Finally, he computed the percentage of points within the boundary over the total points, and he multiplied it by 4 to obtain an estimate of π.
 <p align="center">
@@ -74,17 +94,23 @@ For example, [Nicoguaro](https://commons.wikimedia.org/wiki/User:Nicoguaro) used
 
 # Combine Random walk and montecarlo MMRW
 
-For each valid move A<sub>i</sub> ⊆ M = {up, down, left, right}, the algorithm will generate n ∈ ℕ simulations, and in each simulation will take make m ∈ A ⊆ M  random moves.
+For each valid move A<sub>i</sub> ⊆ M = {up, down, left, right}, the algorithm will generate n ∈ ℕ simulations, and in each simulation will take make m ∈ A ⊆ M  random moves. Then it will calculate the average for 
+<img width="391" alt="Screen Shot 2021-09-25 at 8 59 24 PM" src="https://user-images.githubusercontent.com/63654846/134789595-db7ead6c-9180-46ee-b492-84aa3ad0e6a7.png">
 
 For example, with s<sub>i</sub> = 1000, A<sub>i</sub> = {up, down, left, right}, n = 1000, and m = 16. we got the following distributions.
 
 <img width="1265" alt="Screen Shot 2021-09-25 at 6 28 22 PM" src="https://user-images.githubusercontent.com/63654846/134787410-5e2ebe8d-161d-499c-836a-f5ed5c543486.png">
 
-<img width="1271" alt="Screen Shot 2021-09-25 at 6 28 35 PM" src="https://user-images.githubusercontent.com/63654846/134787414-74541724-7b9e-49fe-991e-5fb17d521908.png">
 
-##
+![final_graph2](https://user-images.githubusercontent.com/63654846/134789571-d73c6058-a63e-4ca8-946b-605fe21afa57.png)
 
-##
+
+![graphviz](https://user-images.githubusercontent.com/63654846/134789451-58ea229e-364e-4940-84aa-eb7e9e5f54e8.png)
+
+
+
+
+##df
 
 https://en.wikipedia.org/wiki/2048_(video_game)
 https://jdlm.info/articles/2017/12/10/counting-states-enumeration-2048.html
