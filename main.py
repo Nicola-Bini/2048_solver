@@ -41,7 +41,7 @@ def __main__(player="human", time_sleep=0, save_replay=False, replay_name=""):
 
     # Initialize game
     game = Game2048()
-    game_gui = Game2048Gui(window_size = 1)
+    game_gui = Game2048Gui(window_size = 3)
 
     if player == "watch_replay":
 
@@ -116,15 +116,15 @@ def __main__(player="human", time_sleep=0, save_replay=False, replay_name=""):
                     if score < 1000:
 
                         montecarlo_averages = montecarlo_2048(game=game,
-                                                             simulations_per_move=25,
-                                                             steps=6,
+                                                             simulations_per_move=50,
+                                                             steps=8,
                                                              count_zeros=False)
 
 
                     else:
 
                         montecarlo_averages = montecarlo_2048(game=game,
-                                                              simulations_per_move=1024,
+                                                              simulations_per_move=2048,
                                                               steps=16,
                                                               count_zeros=False)
 
