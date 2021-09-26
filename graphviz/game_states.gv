@@ -1,0 +1,163 @@
+# http://www.graphviz.org/content/cluster
+
+digraph G {
+  graph [fontname = ""];
+  node [fontname = ""];
+  edge [minlen = 2];
+
+  bgcolor=transparent;
+game -> move
+  move -> a1;
+  move -> a2;
+  move -> a3;
+  move -> a4;
+  move -> a5;
+
+move [label="move right" shape=none]
+
+ game [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+    <TD>0</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+</TABLE>> shape=none];
+
+a1 [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD bgcolor="green"> 2 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+</TABLE>> shape=none];
+
+
+a2 [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD bgcolor="green"> 4 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+</TABLE>> shape=none];
+
+
+a3 [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD> 0 </TD>
+    <TD bgcolor="green"> 2 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+</TABLE>> shape=none];
+
+
+a4 [label="..." shape=none];
+
+
+a5 [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="green">4</TD>
+  </TR>
+</TABLE>> shape=none];
+}

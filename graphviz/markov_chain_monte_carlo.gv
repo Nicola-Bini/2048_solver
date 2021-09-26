@@ -1,0 +1,95 @@
+# http://www.graphviz.org/content/cluster
+
+
+
+digraph G {
+  compound=true;
+  node [shape="box", style="rounded", penwidth = 1];
+  graph [nodesep=1, width=0];
+  edge [minlen=4];
+
+	
+  subgraph cluster_up {
+  label = "repeat n times";
+  move_up;
+  move_random1;}
+  	
+  subgraph cluster_right {
+  label = "repeat n times";
+  move_right;
+  move_random2;}
+	
+  subgraph cluster_down {
+  label = "repeat n times";
+  move_down;
+  move_random3;}
+	
+  subgraph cluster_left {
+  label = "repeat n times";
+  move_left;
+  move_random4;}
+
+  bgcolor=transparent;
+  game -> move_up[lhead= cluster_up];
+  move_up -> move_random1;
+  move_random1 -> calculate_mean[ltail=cluster_up];
+  
+  game -> move_right[lhead= cluster_right];
+  move_right -> move_random2;
+  move_random2 -> calculate_mean[ltail=cluster_right];
+  
+  game -> move_down[lhead= cluster_down];
+  move_down -> move_random3;
+  move_random3 -> calculate_mean[ltail=cluster_down];
+  
+  game -> move_left[lhead= cluster_left];
+  move_left -> move_random4;
+  move_random4 -> calculate_mean[ltail=cluster_left];
+  calculate_mean -> compare;
+  
+  compare -> choice;
+
+choice [label="Choose the move with the highest average"]
+
+move_up [label="move up"]
+move_right [label="move right"]
+move_down [label="move down" ]
+move_left [label="move left" pos="10,10!"]
+move_random1 [label="make m random moves" ]
+move_random2 [label="make m random moves" ]
+move_random3 [label="make m random moves" ]
+move_random4 [label="make m random moves" ]
+calculate_mean [label="calculate average of the n samples"]
+compare [label="Compare the 4 averages"]
+
+ game [label=<<TABLE PADDING="0" BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+    <TD>0</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD bgcolor="yellow">2</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+</TABLE>> shape=none];
+
+
+}
+\

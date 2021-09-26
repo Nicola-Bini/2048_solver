@@ -1,0 +1,80 @@
+# http://www.graphviz.org/content/cluster
+
+digraph G {
+  graph [fontname = ""];
+  node [fontname = ""];
+  edge [fontname = ""];
+
+	
+  subgraph cluster_1 {
+  label = "Figure 1";
+  a1;
+  pencolor=transparent;}	
+
+
+  subgraph cluster_2 {
+  label = "Figure 2";
+  a2;
+  pencolor=transparent;}	
+
+  bgcolor=transparent;
+
+
+a1 [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD bgcolor="yellow"> 2 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="green">4</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="darkseagreen1">64</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+  </TR>
+</TABLE>> shape=none];
+
+ a2 [label=<<TABLE BORDER="3" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2">
+  <TR>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+    <TD> 0 </TD>
+  </TR>
+  
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD> 0 </TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD>0</TD>
+    <TD bgcolor="lightgreen">16</TD>
+  </TR>
+  <TR>
+    <TD>0</TD>
+    <TD bgcolor="darkolivegreen2">8</TD>
+    <TD bgcolor="yellow">2</TD>
+    <TD bgcolor="darkolivegreen2">8</TD>
+  </TR>
+</TABLE>> shape=none];
+
+
+}
