@@ -105,7 +105,7 @@ For example, [Nicoguaro](https://commons.wikimedia.org/wiki/User:Nicoguaro) used
 
 # Markov Chain Monte Carlo (MCMC)
 
-Monte Carlo in 2048 can help us determine what is the best move to make next. Since there is only a maxmimum of 4 moves, we can use Monte Carlo to estimate what it will be the average score of the after m moves, if the player decides to move down in the next step.<br>
+Monte Carlo in 2048 can help us determine what is the best move to make next. Since there is only a maxmimum of 4 moves, we can use Monte Carlo to estimate what it will be the average score of the after m moves, if the player decides to make a certain move on the next step.<br>
 So, for each valid move A<sub>i</sub> ⊆ M = {up, down, left, right}, the algorithm will generate n ∈ ℕ simulations, and in each simulation will take make m ∈ A ⊆ M  random moves. Then it will calculate the average for score for each valid move. (See image)
 
 
